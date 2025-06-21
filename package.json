@@ -1,0 +1,32 @@
+{
+  "name": "blockchain-proof-of-grades",
+  "version": "1.0.0",
+  "description": "Proof of Grades Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thangixd/Blockchain-Proof-of-Grades.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thangixd/Blockchain-Proof-of-Grades/issues"
+  },
+  "homepage": "https://github.com/thangixd/Blockchain-Proof-of-Grades#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.24.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.3.0",
+    "@zk-kit/eddsa-poseidon": "^1.1.0",
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
+    "ethers": "^6.14.4",
+    "fixed-merkle-tree": "^0.7.3",
+    "snarkjs": "^0.7.5"
+  }
+}
