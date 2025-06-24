@@ -1,19 +1,8 @@
 pragma circom 2.1.5;
 
-include "../node_modules/circomlib/circuits/poseidon.circom";
-include "../node_modules/circomlib/circuits/eddsaposeidon.circom";
-include "../node_modules/circomlib/circuits/comparators.circom";
-
-template Sum(n) {
-    signal input in[n];
-    signal output out;
-
-    var lc = 0;
-    for (var i = 0; i < n; i++) {
-        lc += in[i];
-    }
-    out <== lc;
-}
+include "circomlib/circuits/poseidon.circom";
+include "circomlib/circuits/eddsaposeidon.circom";
+include "circomlib/circuits/comparators.circom";
 
 template TranscriptVerifier(maxCourses) {
     signal input courseIds[maxCourses];
@@ -27,26 +16,17 @@ template TranscriptVerifier(maxCourses) {
 
     signal output nullifierHash;
 
+    var issuerPubKeyX = 8007534525180419320176005557667530307145687619921362857565374267454418082344;
+    var issuerPubKeyY = 6683455268269313456735416429951639487199038602967063000322875192641406052668;
+    var REQUIRED_COURSES = 2;
+    var REQUIRED_COURSE_IDS[REQUIRED_COURSES] = [101, 104];
+
     component courseHashers[maxCourses];
     component sigVerifiers[maxCourses];
     component isDummy[maxCourses];
     component commitmentHasher = Poseidon(1 + (maxCourses * 5));
-    component nullifierHasher = Poseidon(2);
     component isPassing[maxCourses];
-    var issuerPubKeyX = 8007534525180419320176005557667530307145687619921362857565374267454418082344;
-    var issuerPubKeyY = 6683455268269313456735416429951639487199038602967063000322875192641406052668;
-    var numRequired = 2;
-    var requiredCourseIds[numRequired] = [101, 104];
-    
-    component isCourseMatch[maxCourses * numRequired];
-    component courseCheckSummer[numRequired];
-
-    for (var k = 0; k < maxCourses * numRequired; k++) {
-        isCourseMatch[k] = IsEqual();
-    }
-    for (var j = 0; j < numRequired; j++) {
-        courseCheckSummer[j] = Sum(maxCourses);
-    }
+    component nullifierHasher = Poseidon(1 + REQUIRED_COURSES * 2);
 
     commitmentHasher.inputs[0] <== userSecret;
 
@@ -76,23 +56,25 @@ template TranscriptVerifier(maxCourses) {
     }
 
     commitmentHasher.out === transcriptCommitment;
-    for (var i = 0; i < maxCourses; i++) {
-        isPassing[i] = LessThan(6);
-        isPassing[i].in[0] <== grades[i];
-        isPassing[i].in[1] <== 40;
+
+   // assert that first ids are the required ones
+    courseIds[0] === REQUIRED_COURSE_IDS[0];
+    courseIds[1] === REQUIRED_COURSE_IDS[1];
+
+    // assert that the first two courses have the required grades
+    component gradeCheck[REQUIRED_COURSES];
+    for (var i = 0; i < REQUIRED_COURSES; i++) {
+        gradeCheck[i] = LessEqThan(6);
+        gradeCheck[i].in[0] <== grades[i];
+        gradeCheck[i].in[1] <== 40; 
+        gradeCheck[i].out === 1;
     }
-    for (var j = 0; j < numRequired; j++) {
-        for (var i = 0; i < maxCourses; i++) {
-            var k = j * maxCourses + i;
-            isCourseMatch[k].in[0] <== courseIds[i];
-            isCourseMatch[k].in[1] <== requiredCourseIds[j];
-            var isRequirementMet = isCourseMatch[k].out * isPassing[i].out;
-            courseCheckSummer[j].in[i] <== isRequirementMet;
-        }
-        courseCheckSummer[j].out === 1;
-    }
+    // create nullifier hash form courses used in the proof
     nullifierHasher.inputs[0] <== userSecret;
-    nullifierHasher.inputs[1] <== transcriptCommitment;
+    for (var i = 0; i < REQUIRED_COURSES; i++) {
+        nullifierHasher.inputs[1 + i*2] <== courseIds[i];
+        nullifierHasher.inputs[1 + i*2 + 1] <== grades[i];
+    }
     nullifierHash <== nullifierHasher.out;
 }
 
