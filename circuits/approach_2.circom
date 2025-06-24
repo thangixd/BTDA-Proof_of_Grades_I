@@ -71,11 +71,13 @@ template Approach2TranscriptProof() {
 
     transcriptCommitment === commitmentHashers[0].out;
 
-    component nullifierHasher = Poseidon(2);
+    component nullifierHasher = Poseidon(1 + REQUIRED_COURSES * 2);
     nullifierHasher.inputs[0] <== userSecret;
-    nullifierHasher.inputs[1] <== transcriptCommitment;
+    for (var i = 0; i < REQUIRED_COURSES; i++) {
+        nullifierHasher.inputs[1 + i*2]     <== courseIds[i];
+        nullifierHasher.inputs[1 + i*2 + 1] <== grades[i];
+    }
     nullifierHash <== nullifierHasher.out;
-
 }
 
 
