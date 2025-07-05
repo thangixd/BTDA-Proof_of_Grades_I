@@ -57,8 +57,18 @@ def plot_metrics(df, metrics_type, title_prefix, ylabel, filename_prefix):
             'Circuit: Public Inputs',
             'Circuit: Private Inputs Total',
             'Circuit: Private Inputs Witness',
-            'Circuit: Public Outputs'
+            'Circuit: Public Outputs',
+            'Circuit: Labels'
         ]
+        columns_to_plot = [col for col in columns_to_plot if col not in exclude_cols]
+    elif filename_prefix == 'artifact_sizes':
+        print()
+        exclude_cols = [
+            'File Size: Proof (KB)',
+            'File Size: Public Inputs (KB)',
+            'File Size: Solidity Verifier (KB)',
+            'File Size: Verification Key (KB)'
+            ]
         columns_to_plot = [col for col in columns_to_plot if col not in exclude_cols]
     
     if not columns_to_plot:
