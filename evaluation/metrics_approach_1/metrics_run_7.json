@@ -1,0 +1,57 @@
+{
+  "circuitName": "approach_1",
+  "timestamp": "2025-07-05T20:00:10.864Z",
+  "metrics": {
+    "compilation": {
+      "timeMs": 2528.80825,
+      "maxMemoryBytes": 965640192,
+      "maxCpuPercent": 5
+    },
+    "circuitDetails": {
+      "non-linear_constraints": 23821,
+      "linear_constraints": 4946,
+      "public_inputs": 1,
+      "private_inputs_total": 16,
+      "private_inputs_witness": 14,
+      "public_outputs": 1,
+      "wires": 28754,
+      "labels": 71132
+    },
+    "witnessGeneration": {
+      "timeMs": 310.766417,
+      "maxMemoryBytes": 110624768,
+      "maxCpuPercent": 0,
+      "fileSizeWitnessBytes": 920204
+    },
+    "groth16Setup": {
+      "timeMs": 12211.772792,
+      "maxMemoryBytes": 524648448,
+      "maxCpuPercent": 23,
+      "fileSizeZkey0000Bytes": 14333364
+    },
+    "zkeyContribute": {
+      "timeMs": 4354.969125,
+      "maxMemoryBytes": 208175104,
+      "maxCpuPercent": 43,
+      "fileSizeZkey0001Bytes": 14333790
+    },
+    "verificationKeyExport": {
+      "fileSizeVerificationKeyBytes": 3112
+    },
+    "proofGeneration": {
+      "timeMs": 1326.503667,
+      "maxMemoryBytes": 862093312,
+      "maxCpuPercent": 50,
+      "fileSizeProofBytes": 805,
+      "fileSizePublicInputsBytes": 166
+    },
+    "proofVerification": {
+      "timeMs": 218.014583,
+      "maxMemoryBytes": 162185216,
+      "maxCpuPercent": 23
+    },
+    "solidityVerifierExport": {
+      "fileSizeSolidityVerifierBytes": 7456
+    }
+  }
+}
