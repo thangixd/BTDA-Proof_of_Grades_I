@@ -32,7 +32,7 @@ for i in $(seq 1 $NUM_RUNS); do
         LATEST_METRIC_FILE=$(ls -t metrics_${circuit}_*.json 2>/dev/null | head -n 1)
 
         if [ -f "$LATEST_METRIC_FILE" ]; then
-            mv "$LATEST_METRIC_FILE" "${RESULTS_DIR}/metrics_run_${i}.json"
+            mv "$LATEST_METRIC_FILE" "metrics_${RESULTS_DIR}/metrics_run_${i}.json"
             echo "Results for '$circuit' (Run #$i) saved to '${RESULTS_DIR}/metrics_run_${i}.json'"
         else
             echo "Warning: Could not find the output metrics file for '$circuit' on run #$i."

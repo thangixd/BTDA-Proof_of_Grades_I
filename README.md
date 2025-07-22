@@ -51,10 +51,14 @@ bash build.sh approach_2
 Use `sh` if you are on macOS or linux.
 
 ## Evaluation
-Script and results for oure evaluation are at `./evaluation`. If you wish to collect metrics yourself, you may follow these steps:
+Script and results for oure evaluation are at `./evaluation`. If you wish to collect metrics yourself, you may follow these steps from the root directory:
 1. Create new artifacts. This utalizes the same logic as in `Compile and build circuits`, but tracks metrics during the execution.
 ```
 cd evaluation
+bash run_evaluation.sh
+```
+Or to generate single runs:
+```
 node evaluation.js approach_1
 node evaluation.js approach_2
 ```
@@ -65,5 +69,5 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cd evaluation
-python plot_metrics.py metrics_approach_1_*.json metrics_approach_2_*.json 
+python plot_metrics.py metrics_approach_1 metrics_approach_2
 ```
